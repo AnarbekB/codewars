@@ -1,7 +1,8 @@
 package ru.balmukanov.codewars.array;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * https://www.codewars.com/kata/5340298112fa30e786000688/train/java
@@ -17,9 +18,9 @@ import java.util.Map;
  * [1, 23, 3, 4, 7] should return [[1, 3]]
  * [4, 3, 1, 5, 6] should return [[1, 3], [3, 5], [4, 6]]
  */
-public class ExtractArrayDifferenceTwo {
+public class ExtractArrayDifferenceTwo implements ExtractArray {
 
-    public static int[][] twosDifference(int[] array) {
+    public int[][] twosDifference(int[] array) {
         var list = new HashMap<Integer, Integer>();
         for (int k : array) {
             for (int i : array) {
@@ -29,7 +30,7 @@ public class ExtractArrayDifferenceTwo {
                 if (k == i) {
                     continue;
                 }
-                if ((max - min) % 2 == 0) {
+                if (max - min == 2) {
                     list.put(min, max);
                 }
             }
@@ -37,8 +38,11 @@ public class ExtractArrayDifferenceTwo {
 
         int[][] result = new int[list.size()][2];
         int index = 0;
-        for (Map.Entry<Integer, Integer> entry: list.entrySet()) {
-            result[index] = new int[] {entry.getKey(), entry.getValue()};
+        SortedSet<Integer> keys = new TreeSet<>(list.keySet());
+        for (Integer key : keys) {
+            Integer value = list.get(key);
+
+            result[index] = new int[] {key, value};
             index++;
         }
 
